@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <ProjectGuid>{69662680-6766-4736-8864-F6022255A4FB}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Block</RootNamespace>
+    <AssemblyName>Block</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>Full</DebugType>
+    <Optimize>False</Optimize>
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <DebugSymbols>False</DebugSymbols>
+    <DebugType>None</DebugType>
+    <Optimize>True</Optimize>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+    <DefineConstants>TRACE</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Algorithm\IntPairCache.cs" />
+    <Compile Include="Algorithm\ISQLData.cs" />
+    <Compile Include="form\BlockForm.cs" />
+    <Compile Include="form\BlockForm.Designer.cs">
+      <DependentUpon>BlockForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="form\LoginForm.cs" />
+    <Compile Include="form\LoginForm.Designer.cs">
+      <DependentUpon>LoginForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="form\RoundButton.cs" />
+    <Compile Include="manage\Easel.cs" />
+    <Compile Include="manage\SQL\SqlTableManager.cs" />
+    <Compile Include="manage\TopManager.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="user\Action.cs" />
+    <Compile Include="user\Admin.cs" />
+    <Compile Include="user\level\Answer.cs" />
+    <Compile Include="user\level\Context.cs" />
+    <Compile Include="user\level\Course.cs" />
+    <Compile Include="user\level\Exam.cs" />
+    <Compile Include="user\level\Question.cs" />
+    <Compile Include="user\level\Theory.cs" />
+    <Compile Include="user\Student.cs" />
+    <Compile Include="user\Tutor.cs" />
+    <Compile Include="user\User.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="manage" />
+    <Folder Include="form" />
+    <Folder Include="manage\SQL" />
+    <Folder Include="Algorithm" />
+    <Folder Include="user" />
+    <Folder Include="user\level" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="form\BlockForm.resx">
+      <DependentUpon>BlockForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="form\LoginForm.resx">
+      <DependentUpon>LoginForm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
