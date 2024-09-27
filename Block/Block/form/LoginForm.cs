@@ -87,11 +87,11 @@ namespace Block.form
             bool hasLowerCase = false;
             bool hasUpperCase = false;
 
-            foreach (var c in string)
+            foreach (var c in password)
             {
-                if (Char.isUpperCase(c)) hasUpperCase = true;
-                if (Char.isLowerCase(c)) hasLowerCase = true;
-                if (Char.isDigit(c)) hasNumber = true;
+                if (Char.IsUpper(c)) hasUpperCase = true;
+                if (Char.IsLower(c)) hasLowerCase = true;
+                if (Char.IsDigit(c)) hasNumber = true;
             }
 
             return hasNumber && hasLowerCase && hasUpperCase;
