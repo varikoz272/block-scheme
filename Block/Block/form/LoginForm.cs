@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Collections.Generic;
 using Block.manage;
 
 using System.Data;
 using System.Data.SqlClient;
+
 
 
 
@@ -42,6 +44,7 @@ namespace Block.form
 			if (info.name.Equals("")) throw new PassException("Введите имя");
 			if (info.password.Equals("")) throw new PassException("Введите пороль");
 			
+			
 			if (info.input == Input.Login)
 			{
 				foreach (var curUser in TopManager.instance.Users)
@@ -56,6 +59,16 @@ namespace Block.form
 			
 			else
 			{
+				if (getUnsafePasswords().Contains(info.password)) throw new PassException("Пороль слишком ненадежный");
+				
+				bool onlyWhiteSpaces = true;
+				foreach (var c in info.password)
+					if (c != ' ') {
+						onlyWhiteSpaces = false;
+						break;
+					}
+				if (onlyWhiteSpaces) throw new PassException("Пороль состоит только из пробелов");
+				
 				foreach (var curUser in TopManager.instance.Users)
 					if (curUser.Name.Equals(info.name))
 						throw new PassException("Имя занято");
@@ -107,6 +120,15 @@ namespace Block.form
 		{
 			if (e.CloseReason.Equals(CloseReason.UserClosing))
 				Application.Exit();
+		}
+		
+		public static List<string> getUnsafePasswords() {
+			return new List<string>{
+				"password",
+				"пороль",
+				"qwerty",
+				"123456"
+			};
 		}
 	}
 	
