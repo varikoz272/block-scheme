@@ -8,11 +8,13 @@ namespace Block.user.level
 	{
 		protected int id;
 		private string text;
+		public readonly bool isCorrect;
 		
-		public Answer(int id, string text)
+		public Answer(int id, string text, bool isCorrect)
 		{
 			this.id = id;
 			this.text = text;
+			this.isCorrect = isCorrect;
 		}
 		
 		public string Text

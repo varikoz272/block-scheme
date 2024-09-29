@@ -45,6 +45,7 @@ namespace Block.form
 			this.coursePage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(174)))), ((int)(((byte)(184)))), ((int)(((byte)(254)))));
 			this.coursePage.Controls.Add(this.trackBar);
 			this.coursePage.Controls.Add(this.roundButton1);
+			this.coursePage.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.coursePage.Location = new System.Drawing.Point(4, 22);
 			this.coursePage.Name = "coursePage";
 			this.coursePage.Padding = new System.Windows.Forms.Padding(3);

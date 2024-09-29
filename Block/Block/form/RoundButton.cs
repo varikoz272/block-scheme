@@ -49,6 +49,9 @@ namespace Block.form
 		
 		public bool IsChecked()
 		{
+			if (!File.Exists(checkedCachePath))
+				File.Create(checkedCachePath);
+			
 			string content = File.ReadAllText(checkedCachePath);
 			return content.Contains(context.Title);
 		}

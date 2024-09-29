@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using Block.manage;
+using Block.form;
 using System.IO;
 
 namespace Block.user.level
@@ -28,6 +29,8 @@ namespace Block.user.level
 			get {return title;}
 			private set{title = value;}
 		}
+		
+
 	}
 	
 	public class StringContext : Context
@@ -38,15 +41,17 @@ namespace Block.user.level
 		private static readonly int FORM_WIDTH = 800;
 		private static readonly int FORM_HEIGHT = 600;
 		
+		private List<ImageForm> images;
+		
 		public StringContext(string title, string text) : base(title)
 		{
 			this.title = title;
 			this.text = text;
+			images = new List<ImageForm>();
 		}
 		
 		public override void GetMessage()
 		{
-			//TODO ПРЕДЕЛАТЬ ВСЕ
 			Form questionForm = new Form();
 			questionForm.Size = new Size(FORM_WIDTH, FORM_HEIGHT);
 			questionForm.StartPosition = FormStartPosition.CenterScreen;
@@ -68,6 +73,31 @@ namespace Block.user.level
 			titleLabel.Location = new Point(10, 10);
 			titleLabel.Font = new Font("Cascadia Mono", 20F);
 			questionForm.Controls.Add(titleLabel);
+			
+			SeekForImages(text);
+			questionForm.FormClosed += (object sender, FormClosedEventArgs e) => CloseImages();
+		}
+		
+		public void CloseImages()
+		{
+			foreach (var imageForm in images)
+				imageForm.Close();
+		}
+		
+		private void SeekForImages(string content)
+		{
+			if (!content.Contains("{") || !content.Contains("}")) return;
+			int start = content.IndexOf('{') + 1;
+			int end = content.LastIndexOf('}');
+			LoadImage(content.Substring(start, end - start));
+		}
+		
+		private void LoadImage(string imagePath)
+		{
+			if (!File.Exists(imagePath))
+				return;
+			
+			images.Add(new ImageForm(imagePath));
 		}
 		
 		public string Text
@@ -115,7 +145,6 @@ namespace Block.user.level
 		{
 			Button[] controlButtons = new Button[2];
 			
-
 			controlButtons[0] = new Button();
 			controlButtons[0].Text = (curIndex < maxIndex - 1) ? ">" : "✓";
 			controlButtons[0].Size = BUTTON_SIZE;

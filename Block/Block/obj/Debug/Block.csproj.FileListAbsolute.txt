@@ -1,0 +1,9 @@
+C:\Users\pasha\projects\block-scheme\Block\Block\bin\Debug\Block.exe
+C:\Users\pasha\projects\block-scheme\Block\Block\bin\Debug\Block.pdb
+C:\Users\pasha\projects\block-scheme\Block\Block\obj\Debug\Block.csprojResolveAssemblyReference.cache
+C:\Users\pasha\projects\block-scheme\Block\Block\obj\Debug\Block.form.BlockForm.resources
+C:\Users\pasha\projects\block-scheme\Block\Block\obj\Debug\Block.form.LoginForm.resources
+C:\Users\pasha\projects\block-scheme\Block\Block\obj\Debug\Block.csproj.GenerateResource.Cache
+C:\Users\pasha\projects\block-scheme\Block\Block\obj\Debug\Block.exe
+C:\Users\pasha\projects\block-scheme\Block\Block\obj\Debug\Block.pdb
+C:\Users\pasha\projects\block-scheme\Block\Block\obj\Debug\Block.form.ImageForm.resources

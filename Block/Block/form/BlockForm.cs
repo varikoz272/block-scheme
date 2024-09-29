@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
+using System.IO;
 
 using Block.user;
 using Block.user.level;
@@ -22,6 +23,7 @@ namespace Block.form
 			TopManager.instance.activeUser = user;
 			visualizer = new CourseVisualizer(coursePage);
 			visualizer.PrintMembersList();
+			this.Text = "Блок-схемы для чайников " + visualizer.GetCompletedPercentage(TopManager.instance.CurrentCourse);
 		}
 		
 		private void BlockFormFormClosed(object sender, FormClosedEventArgs e)
@@ -35,8 +37,10 @@ namespace Block.form
 			visualizer.Clear(new List<object> { sender, trackBar } );
 			var curCourse = TopManager.instance.NextCourse;
 			visualizer.Print(curCourse);
-			if (curCourse != null)
+			if (curCourse != null) {
 				visualizer.PrintMembersList();
+				this.Text = "Блок-схемы для чайников " + visualizer.GetCompletedPercentage(TopManager.instance.CurrentCourse);
+			}
 			
 			trackBar.Value = trackBar.Maximum;
 			prevY = trackBar.Maximum;
@@ -70,6 +74,32 @@ namespace Block.form
 			MIDDLE_Y = page.Height / 2;
 			OFFSET_X = MIDDLE_X / 4 + ELEMENT_D;
 			START_Y = page.Height - (int) (ELEMENT_D * 1.5);
+		}
+		
+		public string GetCompletedPercentage(Course course) {
+			string completed = File.ReadAllText(RoundButtonContext.checkedCachePath);
+			
+			List<Theory> completedTheory = new List<Theory>();
+			int allCount = 0;
+			foreach (var curExam in course.Exams) {
+				foreach (var curTheory in curExam.TheoryNeeded) {
+					if (!completedTheory.Contains(curTheory) && completed.Contains(curTheory.Name))
+						completedTheory.Add(curTheory);
+					allCount++;
+				}
+			}
+			
+			return "(" + completedTheory.Count + " / " + allCount + ")";
+			
+//			Label label = new Label();
+//			label.Text = "Выполнено " + completedTheory.Count + " / " + allCount;
+//			label.Font = new System.Drawing.Font("Cascadia Mono", 10F);
+//			label.ForeColor = Easel.ATTENTION_COLOR;
+//			label.BackColor = Color.Transparent;
+//			label.Location = new Point(350, 10);
+//			label.Size = new Size(150, 30);
+//			label.TextAlign = ContentAlignment.MiddleCenter;
+//			field.Controls.Add(label);
 		}
 		
 		public IntPairCache GetMinMaxY()

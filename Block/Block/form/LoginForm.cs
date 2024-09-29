@@ -56,8 +56,8 @@ namespace Block.form
 
             else
             {
-                if (!isStrongPassword(info.password)) throw new PassException("Пороль слишком ненадежный");
-                if (getUnsafePasswords().Contains(info.password)) throw new PassException("Пороль используется слишком часто");
+            	if (getUnsafePasswords().Contains(info.password)) throw new PassException("Пороль используется слишком часто");
+            	if (!isStrongPassword(info.password)) throw new PassException("Пороль слишком ненадежный");
 
                 bool onlyWhiteSpaces = true;
                 foreach (var c in info.password)
