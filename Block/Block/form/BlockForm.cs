@@ -24,6 +24,7 @@ namespace Block.form
 			visualizer = new CourseVisualizer(coursePage);
 			visualizer.PrintMembersList();
 			this.Text = "Блок-схемы для чайников " + visualizer.GetCompletedPercentage(TopManager.instance.CurrentCourse);
+			ShowIcon = false;
 		}
 		
 		private void BlockFormFormClosed(object sender, FormClosedEventArgs e)

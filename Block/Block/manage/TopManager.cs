@@ -19,8 +19,6 @@ namespace Block.manage
         //DESKTOP-8UOLSK2\SQLEXPRESS комп
         private string dbConnectionQuery = @"Data Source=DESKTOP-8UOLSK2\SQLEXPRESS;Initial Catalog=kurs3;Integrated Security=True";
 
-//        private readonly string checkedCachePath = @"./checkedChache.txt";
-
         private SqlTableManager SQLManager;
 
         public User activeUser;

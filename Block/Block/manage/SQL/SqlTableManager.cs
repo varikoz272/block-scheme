@@ -124,7 +124,7 @@ namespace Block.manage.SQL
 			}
 			
 			foreach (DataRow curAnswer in answerTable.Rows)
-				answers.Add(new Answer((int) curAnswer["id"], curAnswer["text"].ToString(), curAnswer["is_correct"].Equals("True") ? true : false));//===================!!!
+				answers.Add(new Answer((int) curAnswer["id"], curAnswer["text"].ToString(), (Boolean) curAnswer["is_correct"]));
 			
 			foreach (DataRow curConnect in questionAnswersTable.Rows)
 			{

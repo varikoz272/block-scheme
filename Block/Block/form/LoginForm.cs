@@ -15,6 +15,7 @@ namespace Block.form
         {
             InitializeComponent();
             TopManager.instance.Update();
+            ShowIcon = false;
         }
 
         private void LoginFormFormClosed(object sender, FormClosedEventArgs e)

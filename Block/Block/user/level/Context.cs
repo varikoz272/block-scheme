@@ -57,6 +57,7 @@ namespace Block.user.level
 			questionForm.StartPosition = FormStartPosition.CenterScreen;
 			questionForm.Visible = true;
 			questionForm.BackColor = Easel.BG_COLOR;
+			questionForm.ShowIcon = false;
 			
 			Label textLabel = new Label();
 			textLabel.Text = text;
@@ -97,7 +98,7 @@ namespace Block.user.level
 			if (!File.Exists(imagePath))
 				return;
 			
-			images.Add(new ImageForm(imagePath));
+			images.Add(new ImageForm(title, imagePath));
 		}
 		
 		public string Text
@@ -125,13 +126,14 @@ namespace Block.user.level
 		
 		public override void GetMessage()
 		{
-			//TODO НОРМАЛЬНО СДЕЛАТЬ
 			List<Answer> answers = exam.Questions[curQuestionId].Answers;
 			Form questionForm = new Form();
 			questionForm.Size = new Size(FORM_WIDTH, FORM_HEIGHT);
 			questionForm.StartPosition = FormStartPosition.CenterScreen;
 			questionForm.Visible = true;
 			questionForm.BackColor = Easel.BG_COLOR;
+			questionForm.Text = title;
+			questionForm.ShowIcon = false;
 			
 			addQuestionLabel(questionForm.Controls, exam.Questions[curQuestionId].Text);
 			
@@ -158,6 +160,8 @@ namespace Block.user.level
 				formHolder.GetMessage();
 			};
 			
+			else controlButtons[0].Click += (sender, e) => checkCorrect(formHolder.exam);
+			
 			if (curIndex != 0) {
 				controlButtons[1] = new Button();
 				controlButtons[1].Text = "<";
@@ -176,6 +180,33 @@ namespace Block.user.level
 			
 			foreach(var curControl in controlButtons)
 				controls.Add(curControl);
+		}
+		
+		private static void checkCorrect(Exam exam)
+		{
+			string allAnswers = File.ReadAllText(answersCachePath);
+			int[] examAnswers = new int[exam.Questions.Count];
+			int[] examCorrectAnswers = new int[exam.Questions.Count];
+			
+			for (int i = 0; i < exam.Questions.Count; i++)
+			{
+				var question = exam.Questions[i];
+				int chosenAnswer = getChosenAnswer(exam.Name, i);
+				
+				if (chosenAnswer == -1 || chosenAnswer >= question.Answers.Count)
+				{
+					MessageBox.Show("Выполните вопрос под номером " + i + 1);
+					return;
+				}
+				
+				if (!question.Answers[chosenAnswer].isCorrect)
+				{
+					new ImageForm("Тест решен неревно!", "wrong.png");
+					return;
+				}
+				
+			}
+			new ImageForm("Тест решен верно!", "correct.png");
 		}
 		
 		private static void addQuestionLabel(Control.ControlCollection controls, string text)
@@ -197,26 +228,32 @@ namespace Block.user.level
 			answerLabel.Size = new Size(FORM_WIDTH, ELEMENT_SIZE.Height);
 			answerLabel.Font = new System.Drawing.Font("Cascadia Mono", 15F);
 			answerLabel.ForeColor = Easel.OUT_COLOR;
-			answerLabel.CheckedChanged += (sender, e) => {
-				//ЗАПОМИНАТЬ ОТВЕТЫ
-				recordAnswer(testName, questionId, id);
-			};
+			answerLabel.CheckedChanged += (sender, e) => recordAnswer(testName, questionId, id);
+			int chosen = getChosenAnswer(testName, questionId);
+			answerLabel.Checked = (chosen == id) ? true : false;
 			controls.Add(answerLabel);
 		}
 		
-		private static void recordAnswer(string testName, int questionId, int answerId) {
+		private static int getChosenAnswer(string testName, int questionId)
+		{
+			string content = File.ReadAllText(answersCachePath);
+			
+			if (!content.Contains("|" + testName + ":" + questionId))
+				return -1;
+			
+			int startRecord = content.LastIndexOf("|" + testName + ":" + questionId);
+			return content[startRecord + 3 + testName.Length + 1] - 48;
+		}
+		
+		private static void recordAnswer(string testName, int questionId, int answerId)
+		{
 			if (!File.Exists(answersCachePath))
 				File.Create(answersCachePath);
 			
 			string content = File.ReadAllText(answersCachePath);
-			if (content.Contains("|" + testName + ":" + questionId + ":")) {
-				
-			}
-			
-			else {
-				content += "|" + testName + ":" + questionId + ":" + answerId + "\n";
-				File.WriteAllText(answersCachePath, content);
-			}
+
+			content += "|" + testName + ":" + questionId + ":" + answerId + "\n";
+			File.WriteAllText(answersCachePath, content);
 		}
 	}
 }
